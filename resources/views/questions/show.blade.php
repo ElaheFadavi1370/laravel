@@ -17,39 +17,32 @@
                         </div>
                         <hr>
                         <div class="media">
-                            <div class="d-fex flex-column vote-controls">
-                                <a title="This question is useful" class="vote-up">
-                                    <i class="fas fa-caret-up fa-2x"></i>
-                                </a>
-                                <span class="votes-count">1230</span>
-                                <a title="This question is not useful" class="vote-down">
-                                    <i class="fas fa-caret-down fa-2x"></i>
-                                </a>
-                                <a title="Click to mark as favorite question (click again to undo)" class="favorite mt-2 favorited">
-                                    <i class="fas fa-star fa-2x"></i>
-                                   </a>
-                                <span class="favorites-count">123</span>
-                            </div>
+                           @include('shared._vote',[
+                               'model'=>$question
+                             ])
                             <div class="media-body">
                                 {!! $question->body_html !!}
-                                <div class="float-right">
-                                    <span class="text-muted">Answered {{$question->created_at->diffForHumans()}}</span>
-                                    <div class="media mt-2">
-                                        <a href="{{$question->user->url}}" class="pr-2">
-                                            <img src="{{$question->user->avatar}}">
-                                        </a>
-                                        <div class="media-body mt-1">
-                                            <a href="{{$question->user->url}}">{{$question->user->name}}</a>
-                                        </div>
-                                    </div>
-                                </div>
+                               <div class="row">
+                                   <div class="col-4"></div>
+                                   <div class="col-4"></div>
+                                   <div class="col-4">
+{{--                                       @include('shared._author', [--}}
+{{--                                     'model'=> $question,--}}
+{{--                                     'label'=> 'asked'--}}
+{{--                                   ])--}}
+                                      <user-info v-bind:model={{ $question }} label="Asked"></user-info>
+                                   </div>
+                               </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-     @include('answers.index')
+     @include('answers.index',[
+    'answers'=>$qustion->answers,
+    'answersCount'=>$qustion->answers_count
+    ])
      @include('answers.create')
     </div>
 @stop

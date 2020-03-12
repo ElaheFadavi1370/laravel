@@ -6,12 +6,8 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '../../node_modules/bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
 .counters {
     margin-right: 30px;
     font-size: 10px;
@@ -85,5 +81,12 @@
             color: $green;
         }
     }
+
+    .post {
+        padding: 20px 0;
+        &:not(:last-child) {
+        border-bottom: 1px solid rgb($black, .1);
+    }
+   }
 }
 

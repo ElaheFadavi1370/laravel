@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'QuestionsController@index');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('questions' , 'QuestionsController')->except('show');
 Route::get('/questions/{slug}', 'QuestionsController@show')->name('questions.show');
 Route::resource('questions.answers' , 'AnswersController');
 Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
+Route::post('/questions/{question}/favorites', 'FavoritesController@store')->name('questions.favorite');
+Route::delete('/questions/{question}/favorites', 'FavoritesController@destroy')->name('questions.unfavorite');
+Route::post('/questions/{question}/vote', 'VoteQuestionController');
+//Route::post('/answers/{answer}/vote', 'VoteAnswerController');
