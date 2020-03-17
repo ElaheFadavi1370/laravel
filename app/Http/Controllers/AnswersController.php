@@ -11,10 +11,15 @@ class AnswersController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *
      */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth')->except('index');
+    }
+    public function index(Question $question)
+    {
+        return $question->answers()->with('user')->paginate(3);
     }
 
     /**
@@ -39,7 +44,14 @@ class AnswersController extends Controller
             'body' => 'required'
         ]);
 
-        $question->answers()->create(['body' => $request->body, 'user_id' => \Auth::id()]);
+       $answer =$question->answers()->create(['body' => $request->body, 'user_id' => \Auth::id()]);
+
+       if($request->expectsJson()){
+            return response()->json([
+               'message'=>"your answer has been submitted successfully",
+                'answer'=>$answer->load('user')
+           ]);
+       }
 
         return back()->with('success', "your answer has been submitted successfully");
     }

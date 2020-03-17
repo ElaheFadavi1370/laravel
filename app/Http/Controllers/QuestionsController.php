@@ -16,8 +16,8 @@ class QuestionsController extends Controller
     public function index()
     {
 //        \DB::enableQueryLog();
-        $questions= Question::latest()->paginate(5);
-       return view('questions.index' , compact('questions'));
+         $questions= Question::latest()->paginate(5);
+         return view('questions.index' , compact('questions'));
 //        dd(\DB::getQueryLog());
     }
 
@@ -85,6 +85,13 @@ class QuestionsController extends Controller
     {
         if (\Gate::allows('updated-question', $question)) {
             $question->update($request->only('title', 'body'));
+            if($request->expectsJson()){
+                return response()->json([
+                    'message'=>"Your question has been updated",
+                    'body_html'=> $question->body_html
+                ]);
+            }
+
             return redirect()->route('questions.index')->with('success', "Your question has been updated");
         }
         abort(403 , "Access denied");
@@ -99,7 +106,15 @@ class QuestionsController extends Controller
     public function destroy(Question $question)
     {
         if (\Gate::allows('deleted-question', $question)) {
+
             $question->delete();
+
+            if(request()->expectsJson()){
+                return response()->json([
+                    'message'=>"Your question has been Deleted"
+                ]);
+            }
+
             return redirect()->route('questions.index')->with('success', "Your question has been Deleted");
         }
         abort(403, "Access denied");

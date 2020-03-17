@@ -79,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function voteQuestion(Question $question ,$vote){
         $voteQuestions= $this->voteQuestions();
 
-        $this->_vote($voteQuestions, $question, $vote);
+       return $this->_vote($voteQuestions, $question, $vote);
     }
 
 
@@ -87,7 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $voteAnswers = $this->voteAnswers();
 
-        $this->_vote($voteAnswers, $answer, $vote);
+        return $this->_vote($voteAnswers, $answer, $vote);
     }
 
     private function _vote ($relationship , $model, $vote){
@@ -105,6 +105,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $model->votes_count= $downVotes + $upVotes;
         $model->save();
+        return $model->votes_count;
     }
 //    public function voteQuestion(Question $question ,$vote){
 //        $voteQuestions= $this->voteQuestions();

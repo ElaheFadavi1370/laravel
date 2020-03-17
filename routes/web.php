@@ -24,3 +24,12 @@ Route::post('/questions/{question}/favorites', 'FavoritesController@store')->nam
 Route::delete('/questions/{question}/favorites', 'FavoritesController@destroy')->name('questions.unfavorite');
 Route::post('/questions/{question}/vote', 'VoteQuestionController');
 //Route::post('/answers/{answer}/vote', 'VoteAnswerController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+//Route::get('/clear-cache', function() {
+//    Artisan::call('cache:clear');
+//    return "Cache is cleared";
+//});
